@@ -1,0 +1,13 @@
+[
+    {
+        "id": 2034,
+        "callout": "Holding Room",
+        "callout_alt": "Holding",
+        "map": "kanal",
+        "floor": 1,
+        "shape":{
+            "type": "rect",
+            "values": [79, 144, 170, 211]
+        }
+    }
+]
