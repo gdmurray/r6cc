@@ -1,0 +1,174 @@
+[
+    {
+        "name": "Bank",
+        "short_code": "bank",
+        "floors": [
+            {
+                "name": "Basement",
+                "short_code": "Basement",
+                "position": 0
+            },
+            {
+                "name": "1st Floor",
+                "short_code": "1F",
+                "position": 1
+            },
+            {
+                "name": "2nd Floor",
+                "short_code": "2F",
+                "position": 2
+            },
+            {
+                "name": "Roof",
+                "short_code": "Roof",
+                "position": 3
+            }
+        ]
+    },
+    {
+        "name": "Border",
+        "short_code": "border",
+        "floors": [
+            {
+                "name": "1st Floor",
+                "short_code": "1F",
+                "position": 0
+            },
+            {
+                "name": "2nd Floor",
+                "short_code": "2F",
+                "position": 1
+            },
+            {
+                "name": "Roof",
+                "short_code": "Roof",
+                "position": 2
+            }
+        ]
+    },
+    {
+        "name": "Clubhouse",
+        "short_code": "clubhouse",
+        "floors": [
+            {
+                "name": "Basement",
+                "short_code": "Basement",
+                "position": 0
+            },
+            {
+                "name": "1st Floor",
+                "short_code": "1F",
+                "position": 1
+            },
+            {
+                "name": "2nd Floor",
+                "short_code": "2F",
+                "position": 2
+            },
+            {
+                "name": "Roof",
+                "short_code": "Roof",
+                "position": 3
+            }
+        ]
+    },
+    {
+        "name": "Coastline",
+        "short_code": "coastline",
+        "floors": [
+        {
+                "name": "1st Floor",
+                "short_code": "1F",
+                "position": 0
+            },
+            {
+                "name": "2nd Floor",
+                "short_code": "2F",
+                "position": 1
+            },
+            {
+                "name": "Roof",
+                "short_code": "Roof",
+                "position": 2
+            }
+        ]
+    },
+    {
+        "name": "Consulate",
+        "short_code": "consulate",
+        "floors": [
+            {
+                "name": "Basement",
+                "short_code": "Basement",
+                "position": 0
+            },
+            {
+                "name": "1st Floor",
+                "short_code": "1F",
+                "position": 1
+            },
+            {
+                "name": "2nd Floor",
+                "short_code": "2F",
+                "position": 2
+            },
+            {
+                "name": "Roof",
+                "short_code": "Roof",
+                "position": 3
+            }
+        ]
+    },
+    {
+        "name": "Kafe Dostoyevsky",
+        "short_code": "kafe",
+        "floors": [
+            {
+                "name": "1st Floor",
+                "short_code": "1F",
+                "position": 0
+            },
+            {
+                "name": "2nd Floor",
+                "short_code": "2F",
+                "position": 1
+            },
+            {
+                "name": "3rd Floor",
+                "short_code": "3F",
+                "position": 2
+            },
+            {
+                "name": "Roof",
+                "short_code": "Roof",
+                "position": 3
+            }
+        ]
+    }
+    ,{
+        "name": "Villa",
+        "short_code": "villa",
+        "floors": [
+            {
+                "name": "Basement",
+                "short_code": "Basement",
+                "position": 0
+            },
+            {
+                "name": "1st Floor",
+                "short_code": "1F",
+                "position": 1
+            },
+            {
+                "name": "2nd Floor",
+                "short_code": "2F",
+                "position": 2
+            },
+            {
+                "name": "Roof",
+                "short_code": "Roof",
+                "position": 3
+            }
+        ]
+    }
+]
