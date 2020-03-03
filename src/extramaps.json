@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Chalet",
+        "short_code": "chalet"
+    },
+    {
+        "name": "Kanal",
+        "short_code": "kanal"
+    },
+    {
+        "name": "Oregon",
+        "short_code": "oregon"
+    },
+    {
+        "name": "Outback",
+        "short_code": "outback"
+    },
+    {
+        "name": "Theme Park",
+        "short_code": "theme_park"
+    }
+]

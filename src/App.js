@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Route, Switch } from 'react-router'
+import Home from "./containers/Home";
+import Login from "./containers/Login";
+import { ROUTES } from "./constants";
+import PrivateRoute from "./containers/PrivateRoute";
+import {AdminRoutes} from "./containers/Admin";
+import {MapsRoutes} from "./containers/Maps/";
+import 'semantic-ui-css/semantic.min.css'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path={ROUTES.MAPLIST} component={MapsRoutes} />
+        <Route path={ROUTES.LOGIN} component={Login} />
+        <PrivateRoute path={ROUTES.ADMIN} component={AdminRoutes} />
+      </Switch>
     </div>
-  );
+    
+  )
 }
 
 export default App;

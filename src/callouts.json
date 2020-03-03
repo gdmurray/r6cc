@@ -1,0 +1,24 @@
+[
+    {
+        "id": "a320nsq",
+        "callout": "Holding Room",
+        "callout_alt": "Holding",
+        "map": "kanal",
+        "floor": 1,
+        "shape":{
+            "type": "rect",
+            "values": [79, 144, 50, 50]
+        }
+    },
+    {
+        "id": "a320n52",
+        "callout": "Bar Room",
+        "callout_alt": "Holding",
+        "map": "kanal",
+        "floor": 1,
+        "shape":{
+            "type": "rect",
+            "values": [200,200 , 150, 100]
+        }
+    }
+]
