@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import TransformerComponent from "./TransformerComponent";
 import EditCalloutDialog from "../../containers/Editor/EditCalloutDialog";
 import EditableHotSpotComponent from "../Editor/EditableHotSpotComponent";
+import CalloutSidebarComponent from "./CalloutSidebarComponent";
 import { Stage, Layer, Rect, Text, Group, Line } from "react-konva";
 import { makeid } from "../../utils";
 import { KEYCODES, TOOLS, HOTSPOTS, MAP_WIDTH, MAP_HEIGHT, EDIT_CALLOUTS_EVENT } from "../../constants";
 import FloorImage from "../Maps/FloorImage";
+import {
+    Button
+} from "semantic-ui-react";
 
 let _chunk = require("lodash/chunk");
 let _sortBy = require("lodash/sortBy");
@@ -41,6 +45,8 @@ class EditorFloorMap extends Component {
             selectedShape: null,
             editCalloutId: null,
             pointTransformId: null,
+            
+            sidebarOpen: false
         }
     }
 
@@ -129,6 +135,13 @@ class EditorFloorMap extends Component {
             case 192:
                 console.log("DEBUG");
                 console.log(this.state.floorCallouts);
+                console.log(this.state._point);
+                console.log(this.state._absPoint);
+                console.log(this.state._stageSize);
+                console.log(this.state._canvasDims);
+                console.log(this.state._imageLayerCanvasDims);
+                console.log(this.state._imageDims);
+                console.log(this.state._translatedPoint);
                 return
             default:
                 return true;
@@ -258,6 +271,12 @@ class EditorFloorMap extends Component {
             pointTransformId: null,
             editCalloutId: null
         })
+    }
+    
+    toggleSidebar = (e) => {
+        this.setState(prevState => ({
+            sidebarOpen: !prevState.sidebarOpen
+        }));
     }
 
     selectShape = (shape) => {
@@ -449,6 +468,13 @@ class EditorFloorMap extends Component {
             <div ref={node => {
                 this.container = node;
             }} className={this.props.editMode ? 'edit-mode' : ''}>
+                <Button circular className={"edit-panel-button"} icon='bars' onClick={(e) => this.toggleSidebar(e)}/>
+                <CalloutSidebarComponent 
+                    sidebarOpen={this.state.sidebarOpen}
+                    map={this.props.map}
+                    floor={this.props.activeFloor}
+                    callouts={callouts}
+                />
                 <Stage
                     ref={node => {
                         this.stageRef = node;

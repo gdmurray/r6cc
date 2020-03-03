@@ -107,8 +107,6 @@ class EditCalloutDialogComponent extends Component {
                     </Button>
                 </Modal.Actions>
             </Modal>
-
-
         )
     }
 }

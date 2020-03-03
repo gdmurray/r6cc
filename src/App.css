@@ -80,3 +80,89 @@
 .editCalloutModal.dimmer {
   background-color: transparent !important;
 }
+
+.edit-panel-button {
+  float: left;
+  margin-top: .25rem !important;
+  margin-left: .5rem !important;
+  z-index: 99;
+  position: absolute;
+}
+
+.callout-sidebar {
+  background: white;
+  display: flex;
+  flex-flow: column;
+  position: absolute;
+  z-index: 90;
+  width: 310px;
+  height: 85%;
+  border: 1px solid lightgrey;
+  border-top: unset;
+}
+
+.callout-sidebar > .sidebar-top{
+  flex: 0 1 auto;
+  height: 50px;
+  border-bottom: 1px solid lightgrey;
+  padding-left: 50px;
+  padding-top: 2px;
+}
+
+
+.callout-sidebar > .sidebar-map-info {
+  height: 40px;
+  border-bottom: 1px solid lightgray;
+  text-align: center;
+  padding: 8px;
+  font-weight: 600;
+}
+.callout-sidebar > .sidebar-bottom{
+  flex: 1 1 auto;
+  overflow-y: scroll;
+}
+
+.callout-sidebar > .sidebar-bottom ul {
+  list-style: none;
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+  margin: 0 !important;
+    height: 100%;
+}
+
+.callout-sidebar .callout {
+  display: flex;
+  height: 120px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.callout-sidebar .callout .info {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.callout-sidebar .callout .actions{
+  flex: 0 1 auto;
+  width: 40px;
+  display: flex;
+    flex-direction: column;
+    padding: 5px 3px;
+    justify-content: space-evenly;
+    border-left: 1px solid lightgrey;
+}
+
+.callout .inline.field {
+  margin-bottom: 1px !important;
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.callout .inline.field,
+.callout .inline.field input {
+  height: 30px !important;
+} 

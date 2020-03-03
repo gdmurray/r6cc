@@ -23,7 +23,7 @@ export default class MapEditorComponent extends React.Component {
       activeFloor: 0,
       activeCallouts: [],
 
-      calloutDeleted: false
+      calloutDeleted: false,
     }
   }
   

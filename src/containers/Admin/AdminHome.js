@@ -7,24 +7,25 @@ import mapData from "../../maps.json";
 
 class Admin extends Component {
     
-    
-    render() {
-        return (
-            <div>
-                <h1>Admin Page</h1>
-                <button onClick={() => this.props.goToRoute("/admin/maps")}>Go to Maps</button>
-            </div>
-        )
-    }
-}
-/*
-loadMapData() {
+    loadMapData() {
         for (var map of mapData) {
             mapsRef.add(map)
         }
         alert(`Inserted maps`)
     }
-<button onClick={() => this.loadMapData()}>Insert Map Data</button>
+
+    render() {
+        return (
+            <div>
+                <h1>Admin Page</h1>
+                <button onClick={() => this.props.goToRoute("/admin/maps")}>Go to Maps</button>
+                <button onClick={() => this.loadMapData()}>Insert Map Data</button>
+            </div>
+        )
+    }
+}
+/*
+
 */
 
 
