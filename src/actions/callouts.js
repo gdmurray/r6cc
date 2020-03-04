@@ -93,8 +93,16 @@ export const updateCallouts = (callouts) => dispatch => {
     dispatch(requestUpdateCallouts())
     let batch = database.batch()
     for(var callout of callouts){
+        console.log("UPDATE:", callout);
         var calRef = calloutsRef.doc(callout.id);
-        batch.update(calRef, callout)
+        var data = {
+            "callout": callout.callout,
+            "callout_alt": callout.callout_alt,
+            "order": ((callout.order === undefined) ? 0 : callout.order),
+            "shape.type": callout.shape.type,
+            "shape.values": callout.shape.values
+        }
+        batch.update(calRef, data)
     }
     batch
         .commit()
@@ -102,6 +110,7 @@ export const updateCallouts = (callouts) => dispatch => {
             dispatch(receiveUpdateCallouts())
         })
         .catch(error => {
+            console.log("ERROR IN UPDATE: ", error);
             dispatch(updateCalloutsFailure(error))
         })
 }

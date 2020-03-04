@@ -54,7 +54,7 @@ class EditorFloorMap extends Component {
             hoveredShapeId: null,
             editCalloutId: null,
             pointTransformId: null,
-            
+
             sidebarOpen: false
         }
     }
@@ -71,15 +71,39 @@ class EditorFloorMap extends Component {
         document.removeEventListener("keydown", this._handleKeyDown);
         clearInterval(this.sizeInterval);
     }
-    
+
     componentWillReceiveProps(props) {
+        console.log("received props", props);
         if (this.props.callouts.length !== props.callouts.length || this.state.floorCallouts.length === 0) {
             // Callouts Changed
+            console.log("callouts changed");
             this.setState({
                 floorCallouts: props.callouts
             });
         }
 
+        if (this.props.modifiedCallouts.length > 0) {
+            console.log("received modified callouts");
+            var { floorCallouts } = this.state;
+            for (var modified of this.props.modifiedCallouts) {
+                console.log("modified: ", modified);
+                if (modified.id === this.state.selectedId) {
+                    this.setState({
+                        selectedShape: null,
+                        selectedId: null,
+                    });
+                }
+                for (var j in floorCallouts) {
+                    if (modified.id === floorCallouts[j].id) {
+                        floorCallouts[j] = modified
+                    }
+                }
+            }
+            this.setState({
+                floorCallouts: floorCallouts
+            })
+            this.props.modifiedCalloutsCallback();
+        }
         //On ToolChange
         if (this.state.pointTransformId !== null) {
             if (!props.editMode || props.tool !== TOOLS.POINT_TRANSFORM) {
@@ -96,7 +120,7 @@ class EditorFloorMap extends Component {
             }
         }
 
-        if (props.calloutDeleted !== false){
+        if (props.calloutDeleted !== false) {
             this.setState(prevState => ({
                 floorCallouts: prevState.floorCallouts.filter(el => el.id !== props.calloutDeleted)
             }))
@@ -109,20 +133,20 @@ class EditorFloorMap extends Component {
         const image = layer.children[0];
         const width = image.getAttr("width");
         const height = image.getAttr("height");
-        const {stageWidth, imageWidth, imageHeight} = this.state;
-        if(
-            stageWidth !== window.innerWidth || 
-            imageWidth !== width || 
+        const { stageWidth, imageWidth, imageHeight } = this.state;
+        if (
+            stageWidth !== window.innerWidth ||
+            imageWidth !== width ||
             imageHeight !== height
-            ){
-                console.log("window changed");
-                this.setState({
-                    stageWidth: window.innerWidth,
-                    imageWidth: width,
-                    imageHeight: height
-                })
-            }
-        
+        ) {
+            console.log("window changed");
+            this.setState({
+                stageWidth: window.innerWidth,
+                imageWidth: width,
+                imageHeight: height
+            })
+        }
+
     };
 
     _handleKeyDown = event => {
@@ -304,7 +328,7 @@ class EditorFloorMap extends Component {
             editCalloutId: null
         })
     }
-    
+
     toggleSidebar = (e) => {
         this.setState(prevState => ({
             sidebarOpen: !prevState.sidebarOpen
@@ -456,7 +480,7 @@ class EditorFloorMap extends Component {
     }
 
     closeModalCallback = (event) => {
-        switch (event){
+        switch (event) {
             case EDIT_CALLOUTS_EVENT.CANCEL:
                 console.log("CANCELLED");
                 this.setState({
@@ -475,7 +499,7 @@ class EditorFloorMap extends Component {
             default:
                 break;
         }
-        
+
     }
 
     hoverCalloutCallback = (callbackID) => {
@@ -485,7 +509,7 @@ class EditorFloorMap extends Component {
     }
 
     render() {
-        var {floorCallouts} = this.state;
+        var { floorCallouts } = this.state;
         //console.log(floorCallouts);
         var callouts = _sortBy(floorCallouts, ['order'], ['asc']);
         //console.log(callouts);
@@ -493,8 +517,8 @@ class EditorFloorMap extends Component {
             <div ref={node => {
                 this.container = node;
             }} className={this.props.editMode ? 'edit-mode' : ''}>
-                <Button circular className={"edit-panel-button"} icon='bars' onClick={(e) => this.toggleSidebar(e)}/>
-                <EditCalloutSidebar 
+                <Button circular className={"edit-panel-button"} icon='bars' onClick={(e) => this.toggleSidebar(e)} />
+                <EditCalloutSidebar
                     sidebarOpen={this.state.sidebarOpen}
                     map={this.props.map}
                     floor={this.props.activeFloor}
@@ -568,11 +592,11 @@ class EditorFloorMap extends Component {
                     </Layer>
                 </Stage>
                 <EditCalloutDialog
-                        callouts={this.state.floorCallouts}
-                        editModalOpen={this.state.editModalOpen}
-                        selectedId={this.state.editCalloutId}
-                        onClose={this.closeModalCallback}
-                        removeUpdatedCalloutCallback={this.props.removeUpdatedCalloutCallback}
+                    callouts={this.state.floorCallouts}
+                    editModalOpen={this.state.editModalOpen}
+                    selectedId={this.state.editCalloutId}
+                    onClose={this.closeModalCallback}
+                    removeUpdatedCalloutCallback={this.props.removeUpdatedCalloutCallback}
                 />
             </div>
         )

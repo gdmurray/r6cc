@@ -24,6 +24,8 @@ export default class MapEditorComponent extends React.Component {
       activeCallouts: [],
 
       calloutDeleted: false,
+
+      modifiedCallouts: [], 
     }
   }
   
@@ -91,14 +93,22 @@ export default class MapEditorComponent extends React.Component {
 
     console.log("CALLOUTS TO UPDATE: ", calloutsToUpdate);
     this.props.updateCallouts(calloutsToUpdate);
-
+    
     this.setState({
+      modifiedCallouts: calloutsToUpdate,
       updatedCallouts: []
     })
     
     this.getCallouts();
   }
 
+  modifiedCalloutsCallback = () => {
+    // Resets Modified callbacks to empty array
+    this.setState({
+      modifiedCallouts: []
+    })
+  }
+  
   insertCalloutCallback = (callout) => {
     this.setState({
       updatedCallouts: this.state.updatedCallouts.concat(callout)
@@ -321,6 +331,9 @@ export default class MapEditorComponent extends React.Component {
 
             calloutDeleted={this.state.calloutDeleted}
             deletedCalloutCallback={this.deletedCalloutCallback}
+
+            modifiedCallouts={this.state.modifiedCallouts}
+            modifiedCalloutsCallback={this.modifiedCalloutsCallback}
              />
         </div>
       </div>

@@ -15,8 +15,6 @@ const mapStateToProps = (state) => ({
     updating: state.callouts.updating,
     loading: state.callouts.loading,
     callouts: state.callouts.callouts,
-    tempShapeId: state.callouts.tempShapeId,
-    insertedShapeId: state.callouts.insertedShapeId,
 })
 
 const mapDispatchToProps = (dispatch) => ({

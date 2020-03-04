@@ -17,13 +17,10 @@ class TransformerComponent extends Component {
         const { selectedShape } = this.props;
         if (selectedShape) {
             const selectedNode = selectedShape.shapeRef.current;
-            console.log(selectedNode);
-            console.log(this.transformer);
             if (selectedNode === this.transformer.node()) {
                 return;
             }
             if (selectedNode) {
-                console.log("Attaching to selected node: ", selectedNode);
                 this.transformer.attachTo(selectedNode);
             } else {
                 this.transformer.detach();
