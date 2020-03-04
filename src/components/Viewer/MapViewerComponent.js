@@ -47,10 +47,11 @@ class MapViewerComponent extends Component {
 
                 // Set activeCallouts from cache
                 this.setState({
-                    activeCallouts: this._cache[activeFloor]
+                    activeCallouts: this._cache[`${this.props.map}-${activeFloor}`]
                 })
             } else {
                 // Fetch New Callouts from reducer
+                console.log("fetching new callouts");
                 this.props.getCallouts(this.props.map, activeFloor);
             }
             // Callouts Floor Changed ==> When to set the activeCallouts State
@@ -87,6 +88,10 @@ class MapViewerComponent extends Component {
       }
 
     render() {
+        // Cache callouts in component
+        if(this._cache[`${this.props.map}-${this.state.activeFloor}`] === undefined){
+            this._cache[`${this.props.map}-${this.state.activeFloor}`] = this.state.activeCallouts;
+        }
         return (
             <div>
                 <ViewerFloorMap

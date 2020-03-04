@@ -23,7 +23,12 @@
                 "short_code": "Roof",
                 "position": 3
             }
-        ]
+        ],
+        "center": {
+            "scale": "1.4818397357440236",
+            "x": "-696.1468324167472",
+            "y": "-397.3626395084061"
+        }
     },
     {
         "name": "Border",
@@ -44,7 +49,12 @@
                 "short_code": "Roof",
                 "position": 2
             }
-        ]
+        ],
+        "center": {
+            "scale": "1.9980882087724663",
+            "x": "-1134.3795246521609",
+            "y": "-370.41907792736674"
+        }
     },
     {
         "name": "Clubhouse",
@@ -70,13 +80,18 @@
                 "short_code": "Roof",
                 "position": 3
             }
-        ]
+        ],
+        "center": {
+            "scale": "2",
+            "x": "-1287",
+            "y": "-582"
+        }
     },
     {
         "name": "Coastline",
         "short_code": "coastline",
         "floors": [
-        {
+            {
                 "name": "1st Floor",
                 "short_code": "1F",
                 "position": 0
@@ -91,7 +106,12 @@
                 "short_code": "Roof",
                 "position": 2
             }
-        ]
+        ],
+        "center": {
+            "scale": "2",
+            "x": "-1263",
+            "y": "-687"
+        }
     },
     {
         "name": "Consulate",
@@ -117,7 +137,12 @@
                 "short_code": "Roof",
                 "position": 3
             }
-        ]
+        ],
+        "center": {
+            "scale": "3.12",
+            "x": "-2284",
+            "y": "-1301.2921875"
+        }
     },
     {
         "name": "Kafe Dostoyevsky",
@@ -143,9 +168,14 @@
                 "short_code": "Roof",
                 "position": 3
             }
-        ]
-    }
-    ,{
+        ],
+        "center": {
+            "scale": "2",
+            "x": "-735",
+            "y": "-617"
+        }
+    },
+    {
         "name": "Villa",
         "short_code": "villa",
         "floors": [
@@ -169,6 +199,11 @@
                 "short_code": "Roof",
                 "position": 3
             }
-        ]
+        ],
+        "center": {
+            "scale": "1.5198356264041266",
+            "x": "-753.16943378618",
+            "y": "-186.87959254989642"
+        }
     }
 ]

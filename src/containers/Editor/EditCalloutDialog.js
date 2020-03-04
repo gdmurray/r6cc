@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {EditCalloutDialogComponent} from "../../components/Editor";
-import { insertCallouts, updateCallouts, deleteCallout, getCallouts } from "../../actions/callouts";
+import {insertCallouts, updateCallouts, deleteCallout, } from "../../actions/callouts";
 
 const EditCalloutDialog = (props) => {
     if(props.selectedId !== null){

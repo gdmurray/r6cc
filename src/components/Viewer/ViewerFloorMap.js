@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { Stage, Layer, Rect, Text, Group, Line } from "react-konva";
 import { FloorImage } from "../Maps";
+import { DEFAULT_ZOOM_WIDTH, DEFAULT_ZOOM_HEIGHT } from "../../constants";
 import HotSpotComponent from "./HotSpotComponent";
+
+import {
+  Dimmer, Loader
+} from "semantic-ui-react";
+
 
 class ViewerFloorMap extends Component {
   constructor(props) {
@@ -15,6 +21,9 @@ class ViewerFloorMap extends Component {
       floorCallouts: [],
 
       dragClick: false,
+      baseImageLoaded: false,
+
+      centered: false,
     }
   }
 
@@ -25,6 +34,37 @@ class ViewerFloorMap extends Component {
         floorCallouts: props.callouts
       });
     }
+  }
+
+  centerOnBuilding = () => {
+    console.log("CENTERING ON BUILDING");
+    const { center } = this.props.mapData;
+
+    const stage = this.stageRef.getStage();
+    var x = stage.x();
+    var y = stage.y();
+    const { stageWidth, stageHeight } = this.state;
+    var xFactor = stageWidth / DEFAULT_ZOOM_WIDTH;
+    var yFactor = stageHeight / DEFAULT_ZOOM_HEIGHT;
+
+    stage.scale({ x: center.scale, y: center.scale });
+    var centerX = Math.round(center.x, 4);
+    var centerY = Math.round(center.y, 4);
+    console.log("factors: ", xFactor, yFactor);
+    console.log("stage: ", x, y);
+    console.log("original: ", centerX, centerY);
+
+    var newX = (centerX * xFactor)
+    var newY = (centerY * yFactor)
+    console.log("new: ", newX, newY);
+    this.setState({
+      stageScale: Math.round(center.scale, 4),
+      stageX: newX,
+      stageY: newY,
+      centered: true
+    })
+    stage.x(newX);
+    stage.y(newY);
   }
 
   handleWheel = e => {
@@ -60,31 +100,64 @@ class ViewerFloorMap extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener("resize", this.checkParentSize);
     document.addEventListener("keydown", this._handleKeyDown);
+    this.preloadImages();
+    this.sizeInterval = setInterval(() => {
+      this.checkParentSize();
+    }, 750);
     this.checkParentSize();
     //this.loadCallouts();
   }
 
+  preloadImages() {
+    console.log("PRELOADING IMAGES");
+    var img = []
+    const { map } = this.props;
+    for (var i = 1; i < this.props.mapData.floors.length; i++) {
+      img[i] = new Image();
+      img[i].src = process.env.PUBLIC_URL + `/img/maps/${map}/${map}-${i}.png`
+    }
+  }
+
   componentWillUnmount() {
-    window.removeEventListener("resize", this.checkParentSize);
     document.removeEventListener("keydown", this._handleKeyDown);
+    clearInterval(this.sizeInterval);
   }
 
   checkParentSize = () => {
-    const layer = this.layerRef.getLayer();
-    const image = layer.children[0];
-    const width = image.getAttr("width");
-    const height = image.getAttr("height");
-    this.setState({
-      stageWidth: window.innerWidth,
-      imageWidth: width,
-      imageHeight: height
-    })
-  };
+    if (this.layerRef) {
+      const layer = this.layerRef.getLayer();
+      const image = layer.children[0];
+      const width = image.getAttr("width");
+      const height = image.getAttr("height");
+      const { stageWidth, imageWidth, imageHeight } = this.state;
+      if (
+        stageWidth !== window.innerWidth ||
+        imageWidth !== width ||
+        imageHeight !== height
+      ) {
+        console.log("window changed");
+        this.setState({
+          stageWidth: window.innerWidth,
+          imageWidth: width,
+          imageHeight: height
+        })
+      }
+    }
+  }
 
   imageLoadedCallback = () => {
+    this.setState({
+      baseImageLoaded: true,
+    })
     this.checkParentSize();
+    console.log("centered: ", this.state.centered);
+    if (this.state.centered === false) {
+      setTimeout(() => {
+        console.log("centering");
+        this.centerOnBuilding();
+      }, 100)
+    }
   }
 
   handleMouseDown = (e) => {
@@ -126,6 +199,18 @@ class ViewerFloorMap extends Component {
       case 80:
         console.log(this.getTranslatedPosition())
         return
+      case 67:
+        this.centerOnBuilding();
+        return;
+      case 88:
+        var stage = this.stageRef.getStage();
+        var x = stage.x();
+        var y = stage.y();
+        var scale = stage.scaleX();
+        console.log(this.state.stageWidth);
+        console.log(this.state.stageHeight);
+        console.log(`"center": {"scale": "${scale}", "x": "${x}", "y": "${y}"}`)
+        return;
       default:
         return true;
     }
@@ -156,17 +241,21 @@ class ViewerFloorMap extends Component {
     transform.invert();
     var absPos = transform.point(point);
     return absPos;
-}
+  }
 
   render() {
     return (
       <div ref={node => {
         this.container = node;
       }}>
+        <Dimmer active={!this.state.baseImageLoaded}>
+          <Loader />
+        </Dimmer>
         <Stage
           ref={node => {
             this.stageRef = node;
           }}
+          visible={this.state.baseImageLoaded}
           draggable={true}
           width={window.innerWidth}
           height={window.innerHeight}

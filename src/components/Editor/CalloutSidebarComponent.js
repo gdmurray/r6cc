@@ -5,14 +5,22 @@ import {
     Segment, Input, Form, Button
 } from "semantic-ui-react";
 
+var _isEqual = require('lodash/isEqual');
+
 class CalloutListItemComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             editMode: false,
-            callout: props.callout,
-            callout_alt: props.callout_alt,
-            order: props.order
+            callout: props.data.callout,
+            callout_alt: props.data.callout_alt,
+            order: props.data.order,
+
+        }
+        this._cache = {
+            callout: props.data.callout,
+            callout_alt: props.data.callout_alt,
+            order: props.data.order
         }
     }
 
@@ -23,8 +31,43 @@ class CalloutListItemComponent extends Component {
             )
         } else {
             return (
-                <div>{this.props[str]}</div>
+                <div>{this.state[str]}</div>
             )
+        }
+    }
+
+    handleSave = (event) => {
+        const { callout, callout_alt, order } = this.state;
+
+        var calloutData = Object.assign({}, this.props.data);
+        
+        calloutData.callout = callout;
+        calloutData.callout_alt = callout_alt;
+        calloutData.order = order;
+
+        if (calloutData.shape.type === "rect") {
+            calloutData.shape.values = calloutData.shape.values.map(val => Math.round(val))
+        }
+
+        if (calloutData.id.includes("tmp-")) {
+            // If the hotspot is new --> Insert Callout
+            // Delete from Master Callout List
+            this.props.removeUpdatedCalloutCallback(calloutData.id);
+            delete calloutData.id;
+            // REPLACE WITH SINGULAR
+            this.props.insertCallouts([calloutData]);
+
+        }else{
+            // Not new --> Update Callout
+            // REPLACE WITH SINGULAR
+            this.props.updateCallouts([calloutData]);
+        }
+    }
+
+    handleDelete = (event) => {
+        if(!this.props.data.id.includes("tmp-")){
+            this.props.deleteCallout(this.props.data.id);
+            
         }
     }
 
@@ -45,7 +88,7 @@ class CalloutListItemComponent extends Component {
             return (
                 <Form.Field inline>
                     <label>Order</label>
-                    <div>{this.props.order}</div>
+                    <div>{this.state.order}</div>
                 </Form.Field>
             )
         }
@@ -61,8 +104,6 @@ class CalloutListItemComponent extends Component {
         const target = event.target, value = target.type ===
             'checkbox' ? target.checked : target.value,
             name = target.name
-
-        console.log(name, value);
         this.setState({
             [name]: value
         });
@@ -70,48 +111,60 @@ class CalloutListItemComponent extends Component {
 
     handleDropdownChange = (e, result) => {
         const { name, value } = result;
-        console.log(name, value);
         this.setState({
             [name]: value
         })
     }
-
-
-
+    
+    hasDataChanged = () => {
+        var changed = false;
+        const keys = ["callout", "callout_alt", "order"];
+        for(var key of keys){
+            if(this._cache[key] != this.state[key]){
+                changed = true;
+            }
+        }
+        return changed;
+    }
 
     render() {
-        let options = [];
-        for (var i = -1; i <= 10; i++) {
-            options.push({ key: i.toString(), text: i.toString(), value: i })
-        }
-        console.log(options);
         return (
-            <Form className="callout">
+            <Form className="callout" 
+                onMouseEnter={() => this.props.hoverCalloutCallback(this.props.data.id)} 
+                onMouseLeave={() => this.props.hoverCalloutCallback(null)} >
                 <div className="info">
-                    <Form.Field inline>
-                        <label>Callout</label>
-                        {this.renderString('callout')}
-                    </Form.Field>
-                    <Form.Field inline>
-                        <label>Callout Alt.</label>
-                        {this.renderString('callout_alt')}
-                    </Form.Field>
-                    {this.renderSelect()}
+                    <div className="title">
+                        ID: {this.props.data.id}
+                    </div>
+                    <div className="data">
+                        <Form.Field inline>
+                            <label>Callout</label>
+                            {this.renderString('callout')}
+                        </Form.Field>
+                        <Form.Field inline>
+                            <label>Callout Alt.</label>
+                            {this.renderString('callout_alt')}
+                        </Form.Field>
+                        {this.renderSelect()}
+                    </div>
                 </div>
                 <div className="actions">
-                    <Button basic circular size="tiny" icon='save' color='green' />
-                    <Button onClick={() => this.toggleEdit()} basic circular size="tiny" icon='pencil' color='yellow' />
-                    <Button basic circular size="tiny" icon='trash' color='red' />
+                    <Button basic circular size="tiny"
+                        icon='save' color='green'
+                        disabled={!this.hasDataChanged() && !this.props.data.id.includes("tmp-")}
+                        onClick={(e) => this.handleSave(e)} />
+                    <Button basic circular size="tiny"
+                        icon='pencil' color='yellow'
+                        onClick={() => this.toggleEdit()} />
+                    <Button basic circular size="tiny"
+                        icon='trash' color='red'
+                        onClick={(e) => this.handleDelete(e)} />
                 </div>
             </Form>
         )
     }
 }
 class CalloutSidebarComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         if (this.props.sidebarOpen) {
             return (
@@ -126,8 +179,11 @@ class CalloutSidebarComponent extends Component {
                         <ul>
                             {this.props.callouts.map((callout, index) => {
                                 return (
-                                    <li>
-                                        <CalloutListItemComponent {...callout} />
+                                    <li key={"callout-" + index}>
+                                        <CalloutListItemComponent data={callout} 
+                                            hoverCalloutCallback={this.props.hoverCalloutCallback}
+                                            removeUpdatedCalloutCallback={this.props.removeUpdatedCalloutCallback}
+                                            {...this.props} />
                                     </li>
                                 )
                             })}

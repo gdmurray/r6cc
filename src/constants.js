@@ -48,3 +48,6 @@ export const ORDER_OPTIONS = [
     { key: "9", text: "9", value: 9 },
     { key: "10", text: "10", value: 10 }
 ]
+
+export const DEFAULT_ZOOM_WIDTH = 1600;
+export const DEFAULT_ZOOM_HEIGHT = 812;

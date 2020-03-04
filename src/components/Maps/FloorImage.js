@@ -56,6 +56,13 @@ export default class FloorImage extends Component {
         let height = Math.round((width / aspectRatio));
         return { aspectRatio, height }
     }
+
+    calculateWidth(image, height) {
+        let aspectRatio = (image.width / image.height);
+        let width = Math.round((height / aspectRatio));
+        return { aspectRatio, width }
+    }
+    
     loadImage(map, floor) {
         // save to "this" to remove "load" handler on unmount
         if (this.cache[floor] === undefined) {
@@ -80,10 +87,12 @@ export default class FloorImage extends Component {
     handleLoad = () => {
         // after setState react-konva will update canvas and redraw the layer
         // because "image" property is changed
-        console.log(`Setting ${this.props.floor} in cache`);
+        //console.log(`Setting ${this.props.floor} in cache`);
         this.cache[this.props.floor] = this.image;
         let width = this.props.canvasWidth;
+        console.log(this.props);
         let { aspectRatio, height } = this.calculateHeight(this.image, width);
+        //let {_, width} = this.calculateWidth
         this.setState({
             image: this.image,
             loaded: true,

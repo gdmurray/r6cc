@@ -36,6 +36,10 @@ export default class MapEditorComponent extends React.Component {
     document.removeEventListener("keydown", this._handleKeyDown);
   }
 
+  componentWillReceiveProps(props){
+    console.log("receive props: ", props);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { activeFloor } = this.state;
     if (prevState.activeFloor !== activeFloor) {
@@ -99,6 +103,15 @@ export default class MapEditorComponent extends React.Component {
     this.setState({
       updatedCallouts: this.state.updatedCallouts.concat(callout)
     })
+  }
+
+  removeUpdatedCalloutCallback = (calloutId) => {
+    console.log("REMOVE FROM UPDATED");
+    console.log(this.state.updatedCallouts);
+    this.setState(prevState => ({
+      updatedCallouts: prevState.updatedCallouts.filter(el => el.id !== calloutId)
+    }))
+    console.log(this.state.updatedCallouts);
   }
 
   selectedIdCallback = (id) => {
@@ -180,6 +193,12 @@ export default class MapEditorComponent extends React.Component {
   }
 
 
+  renderSave = () => {
+    const { updatedCallouts } = this.state;
+    console.log(!(updatedCallouts.length > 0), updatedCallouts)
+    return !(updatedCallouts.length > 0)
+  }
+  
   render() {
     const { tool, edit } = this.state;
     return (
@@ -261,6 +280,7 @@ export default class MapEditorComponent extends React.Component {
             <Menu>
               <p>Actions</p>
               <Menu.Item
+                disabled={this.state.selectedId === null}
                 onClick={() => this.handleDelete()}
                 name='Delete tool'>
                 <Popup
@@ -270,6 +290,7 @@ export default class MapEditorComponent extends React.Component {
                 />
               </Menu.Item>
               <Menu.Item
+                disabled={this.renderSave()}
                 onClick={() => this.saveCallouts()}
                 name='Save'>
                 <Popup
@@ -292,6 +313,7 @@ export default class MapEditorComponent extends React.Component {
             selectedIdCallback={this.selectedIdCallback}
             getUpdatedIdsCallback={this.getUpdatedCalloutIds}
             getCalloutsCallback={this.getCallouts}
+            removeUpdatedCalloutCallback={this.removeUpdatedCalloutCallback}
 
             updatedCallouts={this.state.updatedCallouts}
             activeFloor={this.state.activeFloor}

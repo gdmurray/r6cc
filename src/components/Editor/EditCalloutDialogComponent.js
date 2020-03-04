@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {EDIT_CALLOUTS_EVENT} from "../../constants"; 
+import {EDIT_CALLOUTS_EVENT, ORDER_OPTIONS} from "../../constants"; 
 import {
     Modal, Button, Icon, Form
 } from "semantic-ui-react";
@@ -46,8 +46,11 @@ class EditCalloutDialogComponent extends Component {
 
         if (calloutData.id.includes("tmp-")) {
             // If the hotspot is new --> Insert Callout
+            // Delete from Master Callout List
+            this.props.removeUpdatedCalloutCallback(calloutData.id);
             delete calloutData.id;
             this.props.insertCallouts([calloutData]);
+
         }else{
             // Not new --> Update Callout
             this.props.updateCallouts([calloutData]);
@@ -65,10 +68,6 @@ class EditCalloutDialogComponent extends Component {
     }
 
     render() {
-        let options = [];
-        for (var i = -1; i <= 10; i++) {
-            options.push({ key: i.toString(), text: i.toString(), value: i })
-        }
         return (
             <Modal
                 style={{ backgroundColor: "transparent" }}
@@ -92,7 +91,7 @@ class EditCalloutDialogComponent extends Component {
                             fluid
                             label="Order"
                             name="order"
-                            options={options}
+                            options={ORDER_OPTIONS}
                             onChange={this.handleDropdownChange}
                             value={this.state.order}
                         />

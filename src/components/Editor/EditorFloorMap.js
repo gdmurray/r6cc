@@ -1,13 +1,21 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
-import TransformerComponent from "./TransformerComponent";
+
+// Containers Imports
 import EditCalloutDialog from "../../containers/Editor/EditCalloutDialog";
+import EditCalloutSidebar from "../../containers/Editor/EditCalloutSidebar";
+
+// Component Imports 
+import TransformerComponent from "./TransformerComponent";
 import EditableHotSpotComponent from "../Editor/EditableHotSpotComponent";
 import CalloutSidebarComponent from "./CalloutSidebarComponent";
-import { Stage, Layer, Rect, Text, Group, Line } from "react-konva";
+import FloorImage from "../Maps/FloorImage";
+
+// Utility Imports
 import { makeid } from "../../utils";
 import { KEYCODES, TOOLS, HOTSPOTS, MAP_WIDTH, MAP_HEIGHT, EDIT_CALLOUTS_EVENT } from "../../constants";
-import FloorImage from "../Maps/FloorImage";
+
+// Package Imports
+import { Stage, Layer, Rect, Text, Group, Line } from "react-konva";
 import {
     Button
 } from "semantic-ui-react";
@@ -43,6 +51,7 @@ class EditorFloorMap extends Component {
             editModalOpen: false,
             selectedId: null,
             selectedShape: null,
+            hoveredShapeId: null,
             editCalloutId: null,
             pointTransformId: null,
             
@@ -51,15 +60,16 @@ class EditorFloorMap extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener("resize", this.checkParentSize);
         document.addEventListener("keydown", this._handleKeyDown);
+        this.sizeInterval = setInterval(() => {
+            this.checkParentSize();
+        }, 750);
         this.checkParentSize();
-        //this.loadCallouts();
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.checkParentSize);
         document.removeEventListener("keydown", this._handleKeyDown);
+        clearInterval(this.sizeInterval);
     }
     
     componentWillReceiveProps(props) {
@@ -93,6 +103,27 @@ class EditorFloorMap extends Component {
             props.deletedCalloutCallback(props.calloutDeleted);
         }
     }
+
+    checkParentSize = () => {
+        const layer = this.layerRef.getLayer();
+        const image = layer.children[0];
+        const width = image.getAttr("width");
+        const height = image.getAttr("height");
+        const {stageWidth, imageWidth, imageHeight} = this.state;
+        if(
+            stageWidth !== window.innerWidth || 
+            imageWidth !== width || 
+            imageHeight !== height
+            ){
+                console.log("window changed");
+                this.setState({
+                    stageWidth: window.innerWidth,
+                    imageWidth: width,
+                    imageHeight: height
+                })
+            }
+        
+    };
 
     _handleKeyDown = event => {
         //event.preventDefault();
@@ -148,6 +179,7 @@ class EditorFloorMap extends Component {
         }
 
     }
+
     handleWheel = e => {
         /*
           Handles Scaling on scroll
@@ -370,19 +402,6 @@ class EditorFloorMap extends Component {
         }
     };
 
-
-    checkParentSize = () => {
-        const layer = this.layerRef.getLayer();
-        const image = layer.children[0];
-        const width = image.getAttr("width");
-        const height = image.getAttr("height");
-        this.setState({
-            stageWidth: window.innerWidth,
-            imageWidth: width,
-            imageHeight: height
-        })
-    };
-
     imageLoadedCallback = () => {
         this.checkParentSize();
     }
@@ -459,21 +478,29 @@ class EditorFloorMap extends Component {
         
     }
 
+    hoverCalloutCallback = (callbackID) => {
+        this.setState({
+            hoveredShapeId: callbackID
+        })
+    }
+
     render() {
         var {floorCallouts} = this.state;
-        console.log(floorCallouts);
+        //console.log(floorCallouts);
         var callouts = _sortBy(floorCallouts, ['order'], ['asc']);
-        console.log(callouts);
+        //console.log(callouts);
         return (
             <div ref={node => {
                 this.container = node;
             }} className={this.props.editMode ? 'edit-mode' : ''}>
                 <Button circular className={"edit-panel-button"} icon='bars' onClick={(e) => this.toggleSidebar(e)}/>
-                <CalloutSidebarComponent 
+                <EditCalloutSidebar 
                     sidebarOpen={this.state.sidebarOpen}
                     map={this.props.map}
                     floor={this.props.activeFloor}
                     callouts={callouts}
+                    hoverCalloutCallback={this.hoverCalloutCallback}
+                    removeUpdatedCalloutCallback={this.props.removeUpdatedCalloutCallback}
                 />
                 <Stage
                     ref={node => {
@@ -519,7 +546,7 @@ class EditorFloorMap extends Component {
                         {this.drawActivePoly()}
                         <Group>
                             {callouts.map((shape, index) => {
-                                console.log(shape.id);
+                                //console.log(shape.id);
                                 return (
                                     <EditableHotSpotComponent
                                         pointTransformId={this.state.pointTransformId}
@@ -530,6 +557,7 @@ class EditorFloorMap extends Component {
                                         onSelect={this.selectShape} key={index}
                                         selectedForEdit={this.state.editCalloutId}
                                         selected={this.state.selectedId} {...shape}
+                                        hoveredShapeId={this.state.hoveredShapeId}
                                         updateCallout={this.props.updateCalloutCallback} />
 
 
@@ -544,6 +572,7 @@ class EditorFloorMap extends Component {
                         editModalOpen={this.state.editModalOpen}
                         selectedId={this.state.editCalloutId}
                         onClose={this.closeModalCallback}
+                        removeUpdatedCalloutCallback={this.props.removeUpdatedCalloutCallback}
                 />
             </div>
         )

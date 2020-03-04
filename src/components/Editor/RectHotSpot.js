@@ -4,7 +4,7 @@ import { MAP_WIDTH, MAP_HEIGHT } from "../../constants";
 export default class RectHotSpot extends Component {
     constructor(props) {
         super(props);
-        console.log("HOTSPOT CONSTRUCTOR: ", props);
+        //console.log("HOTSPOT CONSTRUCTOR: ", props);
         this.shapeRef = React.createRef();
         this.id = props.id;
         this.callout = props.callout;
@@ -18,7 +18,7 @@ export default class RectHotSpot extends Component {
         this.h = this.shape.values[3];
     }
 
-    componentDidUpdate(props){
+    componentDidUpdate(props) {
         this.id = props.id;
         this.callout = props.callout;
         this.callout_alt = props.callout_alt;
@@ -83,7 +83,17 @@ export default class RectHotSpot extends Component {
 
     render() {
         const { x, y, w, h } = this.convertToCanvasSize(this.x, this.y);
-        console.log("Rendering shape with id: " + this.id);
+        //console.log("Rendering shape with id: " + this.id);
+        var fillColor;
+        if (this.props.hoveredShapeId === this.id) {
+            fillColor = "blue";
+        }
+        else if (this.props.selectedForEdit === this.id) {
+            fillColor = "green"
+        } else {
+            fillColor = "white"
+        }
+
         return (
             <Rect
                 ref={this.shapeRef}
@@ -94,7 +104,7 @@ export default class RectHotSpot extends Component {
                 y={y}
                 width={w}
                 height={h}
-                fill={this.id === this.props.selectedForEdit ? "green" : "white"}
+                fill={fillColor}
                 opacity={0.5}
                 onDragEnd={e => {
                     const node = this.shapeRef.current;
