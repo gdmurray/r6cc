@@ -80,6 +80,8 @@ export default class PolygonHotSpot extends Component {
     }
 
     isPointTransforming = () => {
+        console.log("ptf: ", this.id === this.props.pointTransformId)
+        console.log(this.id, this.props.pointTransformId);
         return (this.id === this.props.pointTransformId)
     }
 
@@ -188,6 +190,29 @@ export default class PolygonHotSpot extends Component {
                         const node = this.shapeRef.current;
                         console.log(node);
                     }}
+                    /*onTransformEnd={e => {
+                        const node = this.shapeRef.current;
+                        const scaleX = node.scaleX();
+                        const scaleY = node.scaleY();
+                        console.log(scaleX, scaleY);
+                        console.log(node.getAbsoluteTransform());
+                        console.log(node.getTransform())
+                        console.log(node.getSelfRect());
+                        console.log(node.getAbsoluteScale());
+                        console.log(e);
+                        console.log(node.attrs.points);
+                        var newPoints = [];
+                        _chunk(node.attrs.points, 2).forEach((pair) => {
+                            var {x, y} = this.convertToImageSize(pair[0], pair[1])
+                            newPoints.push(x);
+                            newPoints.push(y);
+                        })
+                        console.log(newPoints);
+                        this.setState({
+                            points: newPoints
+                        });
+                        this.props.updateCallout(this.buildPayload())
+                    }}*/
                 />
             )
         }

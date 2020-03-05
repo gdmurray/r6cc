@@ -133,23 +133,27 @@ export default class MapEditorComponent extends React.Component {
 
   handleDelete = () => {
     const { selectedId } = this.state;
-    if (selectedId !== null) {
+    if (selectedId !== null && selectedId !== undefined) {
       console.log(selectedId);
+      // Deleting Existing Shape
       if (!selectedId.includes("tmp-")) {
         this.props.deleteCallout(selectedId);
         this.setState({
           calloutDeleted: selectedId,
           selectedId: null
         })
-        console.log(this.state.activeCallouts);
+        this.getCallouts();
+      // Deleting uncommitted Shape
       }else{
         this.setState({
           calloutDeleted: selectedId,
           selectedId: null
         })
-        console.log("deleting not committed shape");
-        console.log(this.state);
       }
+      this.setState(prevState => ({
+        updatedCallouts: prevState.updatedCallouts.filter(el => el.id !== selectedId)
+      }));
+      
     }
   }
 

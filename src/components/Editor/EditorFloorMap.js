@@ -82,7 +82,7 @@ class EditorFloorMap extends Component {
             });
         }
 
-        if (this.props.modifiedCallouts.length > 0) {
+        if (this.props.modifiedCallouts.length > 0 || this.props.calloutDeleted) {
             console.log("received modified callouts");
             var { floorCallouts } = this.state;
             for (var modified of this.props.modifiedCallouts) {
@@ -99,6 +99,10 @@ class EditorFloorMap extends Component {
                     }
                 }
             }
+            if(this.props.calloutDeleted){
+                floorCallouts = floorCallouts.filter(el => el.id !== props.calloutDeleted);
+                props.deletedCalloutCallback(props.calloutDeleted);
+            }
             this.setState({
                 floorCallouts: floorCallouts
             })
@@ -106,6 +110,7 @@ class EditorFloorMap extends Component {
         }
         //On ToolChange
         if (this.state.pointTransformId !== null) {
+            console.log("Tool Change?");
             if (!props.editMode || props.tool !== TOOLS.POINT_TRANSFORM) {
                 console.log("Tool Change");
                 this.resetSelection();
@@ -114,17 +119,11 @@ class EditorFloorMap extends Component {
         }
 
         if (this.state.selectedId !== null) {
-            if (!props.editMode || props.tool !== TOOLS.TRANSFORM) {
+            if (!props.editMode || (props.tool !== TOOLS.TRANSFORM && props.tool !== TOOLS.POINT_TRANSFORM)) {
+                console.log("RESETTING SELECTION")
                 this.resetSelection();
                 this.props.selectedIdCallback(null);
             }
-        }
-
-        if (props.calloutDeleted !== false) {
-            this.setState(prevState => ({
-                floorCallouts: prevState.floorCallouts.filter(el => el.id !== props.calloutDeleted)
-            }))
-            props.deletedCalloutCallback(props.calloutDeleted);
         }
     }
 
@@ -304,7 +303,7 @@ class EditorFloorMap extends Component {
                 }
 
                 //Transform Shape Tool
-            } else if (this.props.tool === TOOLS.TRANSFORM) {
+            } else if (this.props.tool === TOOLS.TRANSFORM || this.props.tool === TOOLS.POINT_TRANSFORM) {
                 // Unselect Shape if background Image is Clicked
                 const { clickStartShape } = e.currentTarget;
                 if (clickStartShape.attrs.name) {
@@ -312,6 +311,7 @@ class EditorFloorMap extends Component {
                         this.setState({
                             selectedShape: null,
                             selectedId: null,
+                            pointTransformId: null
                         });
                         this.props.selectedIdCallback(null);
                     }
@@ -344,8 +344,10 @@ class EditorFloorMap extends Component {
             })
             this.props.selectedIdCallback(shape.id);
         } else if (this.props.editMode && this.props.tool === TOOLS.POINT_TRANSFORM) {
+            console.log("POINT TRANSFORM CLICK");
             this.setState({
                 pointTransformId: shape.id,
+                selectedId: shape.id
             })
             this.props.selectedIdCallback(shape.id);
         } else if (this.props.editMode && this.props.tool === TOOLS.EDIT) {
