@@ -1,64 +1,78 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 
-.edit-mode{
-  cursor: crosshair;
+.edit-mode {
+    cursor: crosshair;
 }
 
-.map-thumbnail:hover{
-  box-shadow: 0 0 0 1px #d4d4d5, 0 2px 4px 0 rgba(34,36,38,.12), 0 2px 10px 0 rgba(34,36,38,.15) !important;
-  transition: box-shadow .2s ease,transform .2s ease;
-  cursor: pointer;
+.map-thumbnail:hover {
+    box-shadow: 0 0 0 1px #d4d4d5, 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15) !important;
+    transition: box-shadow .2s ease, transform .2s ease;
+    cursor: pointer;
 }
 
-.edit-map-pane{
-  width: 100%;
-  height: 100%;
+.edit-map-pane {
+    width: 100%;
+    height: 100%;
 }
 
-#root{
-  height: 100%;
+.edit-map-pane .item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 3px !important;
+    padding-top: 9px !important;
 }
 
-#root > div{
-  height: 100%;
+.edit-map-pane .item > p {
+    font-size: 10px;
+    font-weight: 800;
+}
+
+#root {
+    height: 100%;
+}
+
+#root > div {
+    height: 100%;
 }
 
 /*
@@ -66,107 +80,112 @@
   height: 100%;
 }*/
 
-.inner-content{
-  height: 100%;
+.inner-content {
+    height: 100%;
 }
 
 .edit-map-pane .menu > p {
-  float: left;
-  position: absolute;
-  font-size: 8px;
-  font-weight: 800;
+    float: left;
+    position: absolute;
+    font-size: 8px;
+    font-weight: 800;
 }
 
 .editCalloutModal.dimmer {
-  background-color: transparent !important;
+    background-color: transparent !important;
 }
 
 .edit-panel-button {
-  float: left;
-  margin-top: .25rem !important;
-  margin-left: .5rem !important;
-  z-index: 99;
-  position: absolute;
+    float: left;
+    margin-top: .25rem !important;
+    margin-left: .5rem !important;
+    z-index: 99;
+    position: absolute;
 }
 
 .callout-sidebar {
-  background: white;
-  display: flex;
-  flex-flow: column;
-  position: absolute;
-  z-index: 90;
-  width: 310px;
-  height: 85%;
-  border: 1px solid lightgrey;
-  border-top: unset;
+    background: white;
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    z-index: 90;
+    width: 310px;
+    height: 85%;
+    border: 1px solid lightgrey;
+    border-top: unset;
 }
 
-.callout-sidebar > .sidebar-top{
-  flex: 0 1 auto;
-  height: 50px;
-  border-bottom: 1px solid lightgrey;
-  padding-left: 50px;
-  padding-top: 2px;
+.callout-sidebar > .sidebar-top {
+    flex: 0 1 auto;
+    height: 50px;
+    border-bottom: 1px solid lightgrey;
+    padding-left: 50px;
+    padding-top: 2px;
 }
 
 
 .callout-sidebar > .sidebar-map-info {
-  height: 40px;
-  border-bottom: 1px solid lightgray;
-  text-align: center;
-  padding: 8px;
-  font-weight: 600;
+    height: 40px;
+    border-bottom: 1px solid lightgray;
+    text-align: center;
+    padding: 8px;
+    font-weight: 600;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
-.callout-sidebar > .sidebar-bottom{
-  flex: 1 1 auto;
-  overflow-y: scroll;
+
+.callout-sidebar > .sidebar-bottom {
+    flex: 1 1 auto;
+    overflow-y: scroll;
 }
 
 .callout-sidebar > .sidebar-bottom ul {
-  list-style: none;
-  margin-left: 0px !important;
-  padding-left: 0px !important;
-  margin: 0 !important;
+    list-style: none;
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin: 0 !important;
     height: 100%;
 }
 
 .callout-sidebar .callout {
-  display: flex;
-  height: 135px;
-  border-bottom: 1px solid lightgrey;
+    display: flex;
+    height: 135px;
+    border-bottom: 1px solid lightgrey;
 }
 
-.callout-sidebar .callout:hover{
-  background: #0e6eb821;
+.callout-sidebar .callout:hover {
+    background: #0e6eb821;
 }
 
 .callout-sidebar .callout .info {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding-left: 5px;
-  padding-right: 5px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
-.callout-sidebar .callout .info .data{
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  justify-content: space-around;
+.callout-sidebar .callout .info .data {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
-.callout-sidebar .callout .info .title{
-  height: 16px;
-  font-size: 12px;
-  font-weight: 800;
-  color: gray;
+.callout-sidebar .callout .info .title {
+    height: 16px;
+    font-size: 12px;
+    font-weight: 800;
+    color: gray;
 }
 
-.callout-sidebar .callout .actions{
-  flex: 0 1 auto;
-  width: 40px;
-  display: flex;
+.callout-sidebar .callout .actions {
+    flex: 0 1 auto;
+    width: 40px;
+    display: flex;
     flex-direction: column;
     padding: 5px 3px;
     justify-content: space-evenly;
@@ -174,13 +193,28 @@
 }
 
 .callout .inline.field {
-  margin-bottom: 1px !important;
-  display: flex;
+    margin-bottom: 1px !important;
+    display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .callout .inline.field,
 .callout .inline.field input {
-  height: 30px !important;
-} 
+    height: 30px !important;
+}
+
+.card-icon {
+    position: absolute;
+    right: 10px;
+    float: right;
+    color: white;
+    z-index: 10;
+    top: 10px;
+    font-size: 20px !important;
+}
+
+.card-icon:hover {
+    color: grey !important;
+    transition: color .2s ease;
+}
