@@ -1,0 +1,13 @@
+Editor Tasks
+TODO: [EDITOR] [F] Polygon Transformations
+TODO: [EDITOR] [F][IP] Snapshots of state for undo and redo
+TODO: [EDITOR] [F][IP] Callout Editing Ability
+TODO: [EDITOR] [F] Attempt to implement grid snapping on node movements
+TODO: [EDITOR] [B] Round all numbers to 2 decimal places, dont round to 0... in rect i mean.
+
+Viewer Tasks
+TODO: [VIEWER] [F] Style Callouts and optimise loading
+TODO: [VIEWER] [B] Handle canvas size on screen size change, efficiently...
+
+Map Tasks
+TODO: Always have a list of maps client side, load the key data on viewer/editor load
