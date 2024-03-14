@@ -39,6 +39,16 @@ R6CC is built using a robust stack of technologies and libraries:
     - ESLint and Prettier for code linting and formatting
     - Webpack for module bundling
     - Jest for unit testing
+ 
+## Screenshots
+Maps Page
+<img width="1691" alt="Screenshot 2024-03-14 at 9 25 23 AM" src="https://github.com/gdmurray/r6cc/assets/22575791/77b02c04-bd75-442d-8ea1-ec143782b7e6">
+
+Editor
+<img width="1690" alt="Screenshot 2024-03-14 at 9 22 02 AM" src="https://github.com/gdmurray/r6cc/assets/22575791/2edaf6db-6ad9-4f9f-ad64-79454a756355">
+
+Viewer
+<img width="1700" alt="Screenshot 2024-03-14 at 9 27 54 AM" src="https://github.com/gdmurray/r6cc/assets/22575791/ebbfa9f0-d8e0-4478-90f8-818c3e17bcbd">
 
 ## Installation and Setup
 
