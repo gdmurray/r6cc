@@ -40,6 +40,16 @@ R6CC is built using a robust stack of technologies and libraries:
     - Webpack for module bundling
     - Jest for unit testing
 
+## Screenshots
+Maps Page:
+<img width="1691" alt="Screenshot 2024-03-14 at 9 25 23 AM" src="https://github.com/gdmurray/r6cc/assets/22575791/7501d975-c331-4440-9bc2-f82d38e4ec6b">
+
+Editor: 
+<img width="1690" alt="Screenshot 2024-03-14 at 9 22 02 AM" src="https://github.com/gdmurray/r6cc/assets/22575791/0b823469-b200-4ff7-86d2-572e335d8ad7">
+
+Viewer:
+<img width="1700" alt="Screenshot 2024-03-14 at 9 27 54 AM" src="https://github.com/gdmurray/r6cc/assets/22575791/4d33709a-1684-4d22-98f0-3fc94c0e08a5">
+
 ## Installation and Setup
 
 1. Clone the repository to your local machine.
